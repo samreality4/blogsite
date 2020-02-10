@@ -2,9 +2,9 @@
 <h1>Home</h1>
 <p><%= entry %></p>
 <% posts.forEach(post => { %>
-<h1><%= post.title %></h1>
+<h1><%= _.capitalize(post.title) %></h1>
 <p><%= post.text.substring(0,100) + "..." %></p>
-<a href=<%="/posts/" + _.kebabCase(post.title) %>>Read More</a>
+<a href=<%="/posts/" + post._id%>>Read More</a>
 <% });%> 
 
 <%-include("partials/footer"); -%>
