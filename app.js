@@ -23,7 +23,7 @@ app.use(express.static("public"));
 mongoose.connect("mongodb://localhost/blogsiteDB", { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection err:"));
-db.once("open", function() {
+db.once("open", () => {
   console.log("we are connected!");
 });
 
@@ -34,45 +34,43 @@ const postSchema = new mongoose.Schema({
 
 const Post = mongoose.model("Post", postSchema);
 
-app.get("/", function(req, res) {
+app.get("/", (req, res) =>{
   Post.find({}, function(err, posts) {
     res.render("home", { entry: homeStartingContent, posts: posts });
   });
 });
 
-app.get("/about", function(req, res) {
+app.get("/about", (req, res) => {
   res.render("about", { entry: aboutContent });
 });
 
-app.get("/contact", function(req, res) {
+app.get("/contact", (req, res) => {
   res.render("contact", { entry: contactContent });
 });
 
-app.get("/compose", function(req, res) {
+app.get("/compose", (req, res) => {
   res.render("compose");
 });
 
-app.get("/posts/:id", function(req, res) {
-  Post.findById({_id: req.params.id}, function(err, post) {
+app.get("/posts/:id", (req, res) => {
+  Post.findById({ _id: req.params.id }, function(err, post) {
     res.render("post", { post: post });
   });
 });
 
-app.post("/compose", function(req, res) {
+app.post("/compose", (req, res) => {
   const newPost = new Post({
     title: req.body.publishTitle,
     text: req.body.publishText
   });
 
-  newPost.save(function(err){
-    if(!err){
+  newPost.save((err) => {
+    if (!err) {
       res.redirect("/");
     }
   });
-
-  
 });
 
-app.listen(3000, function() {
+app.listen(3000, () => {
   console.log("Server started on port 3000");
 });
