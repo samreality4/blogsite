@@ -1,5 +1,5 @@
 //jshint esversion:6
-
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const lodash = require("lodash");
@@ -20,7 +20,9 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/blogsiteDB", { useNewUrlParser: true });
+console.log(process.env.MONGO_DB);
+
+mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection err:"));
 db.once("open", () => {
