@@ -22,7 +22,7 @@ app.use(express.static("public"));
 
 console.log(process.env.MONGO_DB);
 
-mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection err:"));
 db.once("open", () => {
@@ -73,6 +73,6 @@ app.post("/compose", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server started on port 3000");
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server started");
 });
